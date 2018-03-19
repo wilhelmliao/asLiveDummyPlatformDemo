@@ -1,0 +1,17 @@
+<!{{?page-title}}>登入<!{{/page-title}}>
+
+<!{{?content}}>
+  <form role="form" action="/Login" method="POST">
+    <p>
+      <input type="text"     name="username" placeholder="用戶名" />
+    </p>
+    <p>
+      <input type="password" name="password" placeholder="密碼" />
+    </p>
+
+    <p>
+      <small style="color:red;"><!{{errorMsg}}></small>
+    </p>
+    <button type="submit">登入</button>
+  </form>
+<!{{/content}}>

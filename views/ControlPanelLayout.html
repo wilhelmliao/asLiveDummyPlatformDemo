@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>asLive 模擬娛樂城 DEMO | {{> page-title}}</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <!-- Bootstrap 3.3.7 -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <!-- main -->
+  <link rel="stylesheet" href="dist/css/main.css">
+</head>
+<body class="wrapper">
+  <div class="header">
+    <div class="header-title">
+      {{^isAuthenticated}}
+      <div class="site-nav main-box">
+        <div class="site-nav-r clearfix before-login">
+          <span class="site-nav-login">
+            <i class="fa fa-user"></i>
+            <a href="/Login">登录</a>
+          </span>
+        </div>
+      </div>
+      {{/isAuthenticated}}
+      {{#isAuthenticated}}
+      <div class="site-nav main-box">
+        <div class="site-nav-r clearfix before-login">
+          <span class="site-nav-login">
+            <i class="fa fa-user"></i>
+            歡迎, {{authenticatedUser}}! | <a href="/Logout">登出</a>
+          </span>
+        </div>
+      </div>
+      {{/isAuthenticated}}
+    </div>
+    <div class="header-nav"></div>
+  </div>
+  <div class="content">
+    </div>
+    {{> content}}
+  </div>
+</body>
+</html>

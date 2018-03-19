@@ -1,0 +1,23 @@
+<!{{?page-title}}>首頁<!{{/page-title}}>
+
+<!{{?content}}>
+  <button onclick="openLiveBox()">直播</button>
+  <script>
+    function openLiveBox() {
+      var w=567,
+          h=600;
+      var dualScreenLeft = window.screenLeft != undefined ? window.screenLeft : window.screenX;
+      var dualScreenTop  = window.screenTop  != undefined ? window.screenTop  : window.screenY;
+
+      var width  = window.innerWidth  ? window.innerWidth  : document.documentElement.clientWidth  ? document.documentElement.clientWidth  : screen.width;
+      var height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
+
+      var left = ((width  / 2) - (w / 2)) + dualScreenLeft;
+      var top  = ((height / 2) - (h / 2)) + dualScreenTop;
+
+      var liveWindow = window.open("http://127.0.0.1:30083/Demo.html", "asLive", "width="+w.toString()+",height="+h.toString()+",top=" +top.toString()+ ",left="+left.toString());
+
+      liveWindow.focus();
+    }
+  </script>
+<!{{/content}}>
