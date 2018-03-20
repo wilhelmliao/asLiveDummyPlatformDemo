@@ -1,7 +1,7 @@
 const Parseurl = require('parseurl');
 
 const ControlPanel = require('./handlers/ControlPanelHandler');
-const Auth         = require('./handlers/AuthServiceHandler');
+const asLive       = require('./handlers/asLiveServiceHandler');
 
 module.exports.RequestHandler = ((() => {
   const self = {};
@@ -10,15 +10,16 @@ module.exports.RequestHandler = ((() => {
     '/'            : ControlPanel.Home,
     '/Login'       : ControlPanel.Login,
     '/Logout'      : ControlPanel.Logout,
+    '/About'       : ControlPanel.About,
   
 
-    '/GrantCode'   : Auth.GrantCode,
-    '/AccessToken' : Auth.AccessToken,
-    '/RefreshToken': Auth.RefreshToken,
-    '/RevokeToken' : Auth.RevokeToken,
+    '/GrantCode'   : asLive.Auth.GrantCode,
+    '/AccessToken' : asLive.Auth.AccessToken,
+    '/RefreshToken': asLive.Auth.RefreshToken,
+    '/RevokeToken' : asLive.Auth.RevokeToken,
 
-    '/Player' : null,
-    '/Reward' : null,
+    '/Player' : asLive.Routines.Player,
+    '/Reward' : asLive.Routines.Reward,
   };
 
   self.getHandler = (path) => {

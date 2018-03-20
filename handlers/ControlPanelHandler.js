@@ -93,4 +93,19 @@ const self = module.exports = {
     })
     res.end()
   },
+
+  About: (ctx, req, res) => {
+    const url = parseurl(req)
+    let args = querystring.parse(url.query)
+
+    let model = {}   
+    if (ctx.identity.isAuthenticated()) {
+      model['isAuthenticated'  ] = true
+      model['authenticatedUser'] = ctx.identity.getAuthticationTicket().user
+    } 
+
+    let output = view.renderView('ControlPanelLayout', model,  'About')
+    res.write(output)
+    res.end()
+  }, 
 }
