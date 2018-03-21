@@ -81,6 +81,29 @@ function validateRequiredArgs(obj, names) {
   return true
 }
 
+
+/** formating the date to ISO 8601 string
+ * 
+ * @param {Date} date 
+ */
+function getISODateTimeString(date) {
+  function pad(number) {
+    if (number < 10) {
+      return '0' + number;
+    }
+    return number;
+  }
+
+  return date.getUTCFullYear() +
+  '-' + pad(date.getUTCMonth() + 1) +
+  '-' + pad(date.getUTCDate()) +
+  'T' + pad(date.getUTCHours()) +
+  ':' + pad(date.getUTCMinutes()) +
+  ':' + pad(date.getUTCSeconds()) +
+  'Z';
+}
+
+
 module.exports.Auth = {
 
   /** Gets the grant code.
@@ -90,6 +113,12 @@ module.exports.Auth = {
    */
   GrantCode: (ctx, req, res) => {
     const url = parseurl(req)
+
+    // add CROS header ( https://www.w3.org/TR/cors/#syntax )
+    res.setHeader('Access-Control-Allow-Origin', req.headers['origin'])
+    res.setHeader('Access-Control-Allow-Methods', 'GET')
+    res.setHeader('Access-Control-Max-Age', '86400')
+
     switch(req.method) {
     case 'GET':
       // is authenticated?
@@ -490,7 +519,7 @@ module.exports.Routines  = {
                 data: {
                   player_id    : data.user,
                   player_name  : data.user,
-                  player_avatar: "http://image-server/player_avatar.png"
+                  player_avatar: 'http://'+'image-server/player_' +data.user+ '_avatar.png'
                 },
                 timestamp: Math.floor(Date.now() / 1000)
               })
@@ -577,18 +606,31 @@ module.exports.Routines  = {
             )
             res.end()
           } else {
+            let balance = Math.floor((Math.random() * 100000)) + 10
+            let orderID = "R180300" + Math.floor(Math.random() * 100000).toString()
+            let amount  = parseInt(args.points, 10)
+
             res.setHeader('Content-Type', 'application/json; charset=utf-8')
-            res.write(
-              JSON.stringify({
-                message: 'OK',
-                data: {
-                  balance: 6020793,
-                  id     : "R18030004529",
-                  date   : new Data()
-                },
-                timestamp: Math.floor(Date.now() / 1000)
-              })
-            )
+            if (balance >= amount) {
+              res.write(
+                JSON.stringify({
+                  message: 'OK',
+                  data: {
+                    balance: balance - amount,
+                    id     : orderID,
+                    date   : getISODateTimeString(new Date())
+                  },
+                  timestamp: Math.floor(Date.now() / 1000)
+                })
+              )
+            } else {
+              res.write(
+                JSON.stringify({
+                  message: 'BALANCE_INSUFFICIENT',
+                  timestamp: Math.floor(Date.now() / 1000)
+                })
+              )
+            }
             res.end()
           }
         })
