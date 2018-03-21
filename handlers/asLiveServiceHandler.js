@@ -115,9 +115,11 @@ module.exports.Auth = {
     const url = parseurl(req)
 
     // add CROS header ( https://www.w3.org/TR/cors/#syntax )
-    res.setHeader('Access-Control-Allow-Origin', req.headers['origin'])
-    res.setHeader('Access-Control-Allow-Methods', 'GET')
-    res.setHeader('Access-Control-Max-Age', '86400')
+    if (req.headers['origin']) {
+      res.setHeader('Access-Control-Allow-Origin', req.headers['origin'])
+      res.setHeader('Access-Control-Allow-Methods', 'GET')
+      res.setHeader('Access-Control-Max-Age', '86400')
+    }
 
     switch(req.method) {
     case 'GET':
